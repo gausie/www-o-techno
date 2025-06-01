@@ -3,7 +3,7 @@ import "leaflet/dist/leaflet.css";
 import { css } from "../../styled-system/css";
 
 const container = css({
-  padding: "1rem",
+  paddingX: "1rem",
   width: "100%",
 });
 

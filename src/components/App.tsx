@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
-import { WorldOTechno } from "./synthesizer/WorldOTechno";
-import { Map } from "./components/Map";
-import { Controls } from "./components/Controls";
-import { Header } from "./components/Header";
-import { css } from "../styled-system/css";
+import { WorldOTechno } from "../synthesizer/WorldOTechno";
+import { Map } from "./Map";
+import { Controls } from "./Controls";
+import { Header } from "./Header";
+import { Footer } from "./Footer";
+import { css } from "../../styled-system/css";
 
 const containerStyle = css({
   paddingTop: "1rem",
@@ -71,6 +72,7 @@ function App() {
             positionData={positionData}
             onPositionDataChange={handlePositionDataChange}
           />
+          <Footer />
         </>
       )}
     </div>
