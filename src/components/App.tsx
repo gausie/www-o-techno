@@ -23,7 +23,12 @@ function App() {
   }>({ latitude: 52.0382, longitude: -2.3799, speed: 0 });
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const worldOTechno = useRef<any>(null);
+  const worldOTechno =
+    useRef<
+      InstanceType<
+        Awaited<typeof import("../synthesizer/WorldOTechno")>["WorldOTechno"]
+      >
+    >(null);
 
   useEffect(() => {
     worldOTechno.current?.setPositionData(positionData);

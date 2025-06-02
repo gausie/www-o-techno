@@ -17,6 +17,9 @@ RUN yarn install
 # Copy the rest of the application
 COPY . .
 
+# Run prepare script for panda css codegen
+RUN yarn prepare
+
 # Build the application
 RUN yarn build
 
