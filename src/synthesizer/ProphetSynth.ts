@@ -1,5 +1,5 @@
 import * as Tone from "tone";
-import { midiNoteToFrequency } from "./utilts";
+import { midiNoteToFrequency } from "./utils";
 
 export class ProphetSynth {
   private synth = new Tone.PolySynth(Tone.Synth, {

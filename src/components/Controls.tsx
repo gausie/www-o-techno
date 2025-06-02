@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { css } from "../../styled-system/css";
 
 const controls = css({
@@ -64,6 +64,7 @@ const numberInput = css({
 type Props = {
   positionData: { latitude: number; longitude: number; speed: number };
   isPlaying: boolean;
+  isLoading: boolean;
   onPlayPause: () => void;
   onPositionDataChange: (positionData: {
     latitude: number;
@@ -75,9 +76,17 @@ type Props = {
 export const Controls: React.FC<Props> = ({
   positionData,
   isPlaying,
+  isLoading,
   onPlayPause,
   onPositionDataChange,
 }) => {
+  const ios = useMemo(
+    () =>
+      navigator.platform.startsWith("iP") ||
+      (navigator.platform.startsWith("Mac") && navigator.maxTouchPoints > 4),
+    [],
+  );
+
   const handleLatitudeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const lat = parseFloat(e.target.value);
     if (!isNaN(lat) && onPositionDataChange) {
@@ -96,7 +105,9 @@ export const Controls: React.FC<Props> = ({
     <div className={controls}>
       <div className={playbackControls}>
         <button className={button} onClick={onPlayPause}>
-          {isPlaying ? "Pause" : "Play"}
+          {isPlaying ? "Stop" : "Play"}{" "}
+          {isPlaying && ios && !isLoading && "(remember to unmute)"}{" "}
+          {isLoading && "(loading...)"}
         </button>
       </div>
       <div className={coordinateControls}>

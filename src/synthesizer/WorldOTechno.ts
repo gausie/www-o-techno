@@ -78,15 +78,6 @@ export class WorldOTechno {
     ]);
 
     this.samples = { boom, fat, haus };
-
-    if (this.loop) this.loop.dispose();
-
-    this.loop = new Tone.Loop((t) => {
-      this.createLoopOne(t); // 8 seconds
-      this.createLoopTwo(t + 8); // 4 seconds
-      this.createLoopThree(t + 12); // 4 seconds
-      this.createLoopFour(t + 16); // 4 seconds
-    }, 20).start(0);
   }
 
   /**
@@ -250,10 +241,19 @@ export class WorldOTechno {
   }
 
   play() {
+    if (this.loop) this.loop.dispose();
+
+    this.loop = new Tone.Loop((t) => {
+      this.createLoopOne(t); // 8 seconds
+      this.createLoopTwo(t + 8); // 4 seconds
+      this.createLoopThree(t + 12); // 4 seconds
+      this.createLoopFour(t + 16); // 4 seconds
+    }, 20).start(0);
+
     Tone.getTransport().start();
   }
 
-  pause() {
+  stop() {
     Tone.getTransport().stop();
   }
 }

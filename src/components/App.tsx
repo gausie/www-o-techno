@@ -1,9 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { WorldOTechno } from "../synthesizer/WorldOTechno";
+import { useEffect, useRef, useState } from "react";
 import { Map } from "./Map";
 import { Controls } from "./Controls";
 import { Header } from "./Header";
 import { Footer } from "./Footer";
+
 import { css } from "../../styled-system/css";
 
 const containerStyle = css({
@@ -23,19 +23,10 @@ function App() {
   }>({ latitude: 52.0382, longitude: -2.3799, speed: 0 });
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const worldOTechno = useMemo(() => new WorldOTechno(), []);
+  const worldOTechno = useRef<any>(null);
 
   useEffect(() => {
-    async function loadSamples() {
-      setLoading(true);
-      await worldOTechno.load();
-      setLoading(false);
-    }
-    loadSamples();
-  }, [worldOTechno]);
-
-  useEffect(() => {
-    worldOTechno.setPositionData(positionData);
+    worldOTechno.current?.setPositionData(positionData);
   }, [positionData, worldOTechno]);
 
   const handlePositionDataChange = (positionData: {
@@ -47,34 +38,49 @@ function App() {
   };
 
   const handlePlayPause = () => {
+    if (!worldOTechno.current) {
+      console.log("loading");
+      async function load() {
+        setLoading(true);
+        const { start } = await import("tone");
+        await start();
+
+        const { WorldOTechno } = await import("../synthesizer/WorldOTechno");
+        const instance = new WorldOTechno();
+        await instance.load();
+        instance.setPositionData(positionData);
+        instance.play();
+        worldOTechno.current = instance;
+        setIsPlaying(true);
+        setLoading(false);
+      }
+      load();
+      return;
+    }
+
     if (isPlaying) {
-      worldOTechno.pause();
+      worldOTechno.current.stop();
     } else {
-      worldOTechno.play();
+      worldOTechno.current.play();
     }
     setIsPlaying(!isPlaying);
   };
 
   return (
     <div className={containerStyle}>
-      {loading ? (
-        <div>Loading...</div>
-      ) : (
-        <>
-          <Header />
-          <Controls
-            positionData={positionData}
-            isPlaying={isPlaying}
-            onPlayPause={handlePlayPause}
-            onPositionDataChange={handlePositionDataChange}
-          />
-          <Map
-            positionData={positionData}
-            onPositionDataChange={handlePositionDataChange}
-          />
-          <Footer />
-        </>
-      )}
+      <Header />
+      <Controls
+        positionData={positionData}
+        isLoading={loading}
+        isPlaying={isPlaying}
+        onPlayPause={handlePlayPause}
+        onPositionDataChange={handlePositionDataChange}
+      />
+      <Map
+        positionData={positionData}
+        onPositionDataChange={handlePositionDataChange}
+      />
+      <Footer />
     </div>
   );
 }

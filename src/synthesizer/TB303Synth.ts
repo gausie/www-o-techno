@@ -1,5 +1,5 @@
 import * as Tone from "tone";
-import { midiNoteToFrequency } from "./utilts";
+import { midiNoteToFrequency } from "./utils";
 
 export class TB303Synth {
   private synth = new Tone.MonoSynth({
