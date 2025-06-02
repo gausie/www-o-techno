@@ -29,7 +29,11 @@ export const Header = () => {
         <wbr />
         'O'Techno
       </h1>
-      <img src="/logo.png" alt="WorldWideWeb'O'Techno" className={logoStyle} />
+      <img
+        src="/logo.png"
+        alt="Pixel art representation of the original World'o'Techno device"
+        className={logoStyle}
+      />
     </header>
   );
 };

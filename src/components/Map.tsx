@@ -1,5 +1,7 @@
 import { MapContainer, TileLayer, Marker, useMapEvents } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
 import { css } from "../../styled-system/css";
 
 const container = css({
@@ -11,6 +13,12 @@ const map = css({
   height: "500px",
   borderRadius: "8px",
   border: "1px solid #ddd",
+});
+
+const icon = L.icon({
+  iconUrl: "/logo.png",
+  iconSize: [32, 36],
+  iconAnchor: [18, 32],
 });
 
 type Props = {
@@ -51,7 +59,10 @@ export const Map: React.FC<Props> = ({
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[positionData.latitude, positionData.longitude]} />
+        <Marker
+          icon={icon}
+          position={[positionData.latitude, positionData.longitude]}
+        />
         <MapEvents />
       </MapContainer>
     </div>
