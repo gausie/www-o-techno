@@ -23,11 +23,8 @@ RUN yarn prepare
 # Build the application
 RUN yarn build
 
-# Install serve to run the application
-RUN yarn global add serve
-
 # Expose port 3000
 EXPOSE 3000
 
-# Start the application
-CMD ["serve", "-s", "dist", "-l", "3000"] 
+# Start the application using serve
+CMD ["yarn", "dlx", "serve", "-s", "dist", "-l", "3000"]
