@@ -4,6 +4,9 @@ FROM node:20-alpine
 # Set working directory
 WORKDIR /app
 
+# Enable corepack for Yarn
+RUN corepack enable
+
 # Copy package files
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
